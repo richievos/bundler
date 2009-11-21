@@ -88,8 +88,9 @@ module Bundler
 
       options[:only] = _combine_only(options[:only] || options["only"])
       options[:except] = _combine_except(options[:except] || options["except"])
+      options.merge(:version => version) if version
 
-      dep = Dependency.new(name, options.merge(:version => version))
+      dep = Dependency.new(name, options)
 
       if options.key?(:bundle) && !options[:bundle]
         dep.source = SystemGemSource.instance
