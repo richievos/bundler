@@ -136,6 +136,17 @@ describe "Installing gems" do
       bundled_app("vendor", "gems").should have_installed_gem("very-simple-prerelease-1.0.pre")
     end
 
+    it "works with version specified as a hash arg" do
+      m = build_manifest <<-Gemfile
+        clear_sources
+        source "file://#{gem_repo1}"
+        gem "very-simple-prerelease", :version => "1.0.pre"
+      Gemfile
+      m.install
+      bundled_app("vendor", "gems").should have_cached_gem("very-simple-prerelease-1.0.pre")
+      bundled_app("vendor", "gems").should have_installed_gem("very-simple-prerelease-1.0.pre")
+    end
+
     it "outputs a logger message for each gem that is installed" do
       setup
       @manifest.install
