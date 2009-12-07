@@ -33,6 +33,21 @@ describe "Bundler runtime" do
       out.should == "1.2.7"
     end
 
+    it "doesn't require gems it's not supposed to" do
+      install_manifest <<-Gemfile
+        clear_sources
+        source "file://#{gem_repo1}"
+        gem "rspec", :require_as => false
+      Gemfile
+
+      out = run_in_context <<-RUBY
+        Bundler.require_env
+        puts defined?(Spec).inspect
+      RUBY
+
+      out.should == "nil"
+    end
+
     it "executes blocks at require time" do
       install_manifest <<-Gemfile
         clear_sources

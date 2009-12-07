@@ -68,7 +68,7 @@ module Bundler
 
         if files = opt[:require_as] || opt["require_as"]
           Array(files).each { |f| require f }
-        else
+        elsif opt[:require_as].nil? && opt["require_as"].nil?
           begin
             require name
           rescue LoadError
