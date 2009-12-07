@@ -36,7 +36,7 @@ module Bundler
 
       if @require_as
         Array(@require_as).each { |file| require file }
-      else
+      elsif require_as.nil?
         begin
           require name
         rescue LoadError
