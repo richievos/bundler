@@ -62,15 +62,12 @@ module Bundler
         opt = args.last.is_a?(Hash) ? args.pop : {}
         only = _combine_only(opt[:only] || opt["only"])
         except = _combine_except(opt[:except] || opt["except"])
-        files = opt[:require_as] || opt["require_as"] || name
-        files = [files] unless files.respond_to?(:each)
 
         return unless !only || only.any? {|e| e == @env }
         return if except && except.any? {|e| e == @env }
 
         if files = opt[:require_as] || opt["require_as"]
-          files = Array(files)
-          files.each { |f| require f }
+          Array(files).each { |f| require f }
         else
           begin
             require name
